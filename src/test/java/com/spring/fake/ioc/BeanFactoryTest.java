@@ -23,8 +23,13 @@ public class BeanFactoryTest {
         beanDefinition.setBeanClassByName("com.spring.fake.bean.McHotDog");
         beanFactory.registerBeanDefinition("mcHotDog", beanDefinition);
 
-        // 3.get bean
+        // 3.set properties
+        Property property = new Property();
+        property.addPropertyValue(new PropertyValue("sing", "rap"));
+        beanDefinition.setProperty(property);
+
+        // 4.get bean
         McHotDog mcHotDog = (McHotDog) beanFactory.getBean("mcHotDog");
-        mcHotDog.song();
+        mcHotDog.sing();
     }
 }
