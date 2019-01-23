@@ -1,6 +1,7 @@
 package com.spring.fake.ioc.xml;
 
 import com.spring.fake.ioc.BeanDefinition;
+import com.spring.fake.ioc.PropertyValue;
 import com.spring.fake.ioc.io.AbstractBeanDefinitionReader;
 import com.spring.fake.ioc.io.ResourceLoader;
 import org.w3c.dom.Document;
@@ -18,7 +19,7 @@ import java.io.InputStream;
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 
-    protected XmlBeanDefinitionReader(ResourceLoader resourceLoader) {
+    public XmlBeanDefinitionReader(ResourceLoader resourceLoader) {
         super(resourceLoader);
     }
 
@@ -33,7 +34,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         // 解析dom标签, 注入bean
         registerBeanDefinitions(document);
         inputStream.close();
-
 
     }
 
@@ -56,14 +56,31 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     }
 
     private void processBeanDefinitions(Element e) {
-        String         name           = e.getAttribute("name");
-        String         classsName     = e.getAttribute("class");
+        String name       = e.getAttribute("name");
+        String classsName = e.getAttribute("class");
 
-        // 初始化 BeanDefinition
         BeanDefinition beanDefinition = new BeanDefinition();
-
+        processProperty(e, beanDefinition);
         beanDefinition.setBeanClassByName(classsName);
         getBeanDefinitionMap().put(name, beanDefinition);
+
+    }
+
+    private void processProperty(Element etree, BeanDefinition beanDefinition) {
+        NodeList propertyNode = etree.getElementsByTagName("property");
+        Element  e            = null;
+
+        for (int i = 0; i < propertyNode.getLength(); i++) {
+            Node node = propertyNode.item(i);
+
+            if (node instanceof Element) {
+                e = (Element) node;
+                String name  = e.getAttribute("name");
+                String value = e.getAttribute("value");
+                beanDefinition.getProperty().addPropertyValue(new PropertyValue(name, value));
+
+            }
+        }
 
     }
 }
