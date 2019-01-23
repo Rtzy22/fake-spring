@@ -11,10 +11,11 @@ public class BeanDefinition {
 
     private String beanClassName;
 
-    private Property property;
+    private Property property = new Property();
 
     public BeanDefinition() {
     }
+
 
     public Object getBean() {
         return bean;
