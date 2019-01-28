@@ -27,7 +27,7 @@ public class BeanFactoryTest {
 
         // 1.init beanfactory
         BeanFactory beanFactory = new AutoWireCapableBeanFactory();
-        for (Map.Entry<String,BeanDefinition> beanEntry : reader.getBeanDefinitionMap().entrySet()) {
+        for (Map.Entry<String, BeanDefinition> beanEntry : reader.getBeanDefinitionMap().entrySet()) {
             beanFactory.registerBeanDefinition(beanEntry.getKey(), beanEntry.getValue());
         }
 

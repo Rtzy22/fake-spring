@@ -2,7 +2,6 @@ package com.spring.fake.ioc.io;
 
 import com.spring.fake.ioc.BeanDefinition;
 import com.spring.fake.ioc.BeanDefinitionReader;
-import com.spring.fake.ioc.io.ResourceLoader;
 
 import java.util.HashMap;
 import java.util.Map;
