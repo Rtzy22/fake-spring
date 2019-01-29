@@ -2,6 +2,9 @@ package com.spring.fake.ioc.factory;
 
 import com.spring.fake.ioc.BeanDefinition;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,19 +13,39 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by tnpla on 2019/1/21.
  */
 public abstract class AbstractBeanFactory implements BeanFactory {
+
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 
-    // 获取bean
-    public Object getBean(String beanName) {
-        return beanDefinitionMap.get(beanName).getBean();
+    private final List<String> beanDefinitionNames = new ArrayList<String>();
+
+    // 获取bean, 采用懒加载的方式, 需要的时候再去创建bean
+    public Object getBean(String beanName) throws Exception {
+
+        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
+        if (null == beanDefinition) {
+            throw new IllegalArgumentException("No bean named " + beanName + "");
+        }
+
+        Object bean = beanDefinition.getBean();
+        if (null == bean) {
+            bean = createBean(beanDefinition);
+        }
+        return bean;
     }
 
-    // 注册bean
-    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        Object bean = createBean(beanDefinition);
-        beanDefinition.setBean(bean);
-        beanDefinitionMap.put(beanName, beanDefinition);
+    public void preInstantiateSingletons() throws Exception {
+        for (Iterator it = beanDefinitionNames.iterator(); it.hasNext();) {
+            String beanName = (String) it.next();
+            getBean(beanName);
+        }
+    }
 
+        // 注册bean
+    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+//        Object bean = createBean(beanDefinition);
+//        beanDefinition.setBean(bean);
+        beanDefinitionMap.put(beanName, beanDefinition);
+        beanDefinitionNames.add(beanName);
     }
 
     /**
@@ -31,5 +54,5 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @param beanDefinition
      * @return
      */
-    protected abstract Object createBean(BeanDefinition beanDefinition);
+    protected abstract Object createBean(BeanDefinition beanDefinition) throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.spring.fake.ioc.xml;
 
 import com.spring.fake.ioc.BeanDefinition;
+import com.spring.fake.ioc.BeanReference;
 import com.spring.fake.ioc.PropertyValue;
 import com.spring.fake.ioc.io.AbstractBeanDefinitionReader;
 import com.spring.fake.ioc.io.ResourceLoader;
@@ -77,7 +78,20 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 e = (Element) node;
                 String name  = e.getAttribute("name");
                 String value = e.getAttribute("value");
-                beanDefinition.getProperty().addPropertyValue(new PropertyValue(name, value));
+
+                if (null != value && value.length() > 0) {
+                    beanDefinition.getProperty().addPropertyValue(new PropertyValue(name, value));
+                } else {
+                    // 读取不到value时, 读取ref
+                    String ref = e.getAttribute("ref");
+                    if (null == ref && ref.length() == 0) {
+                        throw new IllegalArgumentException("Configuration problem: <property> element for property " +
+                                name + " ref must specify a ref or value");
+                    }
+
+                    BeanReference beanReference = new BeanReference(name);
+                    beanDefinition.getProperty().addPropertyValue(new PropertyValue(name, beanReference));
+                }
 
             }
         }

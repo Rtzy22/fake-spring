@@ -6,9 +6,18 @@ package com.spring.fake.ioc.testbeans;
 public class McHotDog {
 
     private String song;
+    private Rapper rapper;
 
     public void setSong(String song) {
         this.song = song;
+    }
+
+    public void setRapper(Rapper rapper) {
+        this.rapper = rapper;
+    }
+
+    public Rapper getRapper() {
+        return rapper;
     }
 
     public void sing() {

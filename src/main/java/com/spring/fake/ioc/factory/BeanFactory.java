@@ -8,7 +8,9 @@ import com.spring.fake.ioc.BeanDefinition;
  */
 public interface BeanFactory {
 
-    Object getBean(String beanName);
+    Object getBean(String beanName) throws Exception;
 
     void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);
+
+    void preInstantiateSingletons() throws Exception;
 }

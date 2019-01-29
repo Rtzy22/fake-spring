@@ -41,8 +41,13 @@ public class BeanFactoryTest {
 //        property.addPropertyValue(new PropertyValue("sing", "rap"));
 //        beanDefinition.setProperty(property);
 
+        // 3.init bean
+        beanFactory.preInstantiateSingletons();
+
         // 4.get bean
         McHotDog mcHotDog = (McHotDog) beanFactory.getBean("mcHotDog");
+        mcHotDog.getRapper().say();
         mcHotDog.sing();
+
     }
 }

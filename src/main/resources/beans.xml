@@ -9,6 +9,11 @@
 
     <bean name="mcHotDog" class="com.spring.fake.ioc.testbeans.McHotDog">
         <property name="song" value="九局下半"></property>
+        <property name="rapper" ref="rapper"></property>
+    </bean>
+
+    <bean name="rapper" class="com.spring.fake.ioc.testbeans.Rapper">
+        <property name="name" value="mc"></property>
 
     </bean>
 
