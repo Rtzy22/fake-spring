@@ -1,10 +1,10 @@
 package com.spring.fake.ioc;
 
 
-import com.spring.fake.ioc.testbeans.McHotDog;
+import com.spring.fake.ioc.factory.AbstractBeanFactory;
 import com.spring.fake.ioc.factory.AutoWireCapableBeanFactory;
-import com.spring.fake.ioc.factory.BeanFactory;
 import com.spring.fake.ioc.io.ResourceLoader;
+import com.spring.fake.ioc.testbeans.McHotDog;
 import com.spring.fake.ioc.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class BeanFactoryTest {
         reader.loadBeanDefinitions("beans.xml");
 
         // 1.init beanfactory
-        BeanFactory beanFactory = new AutoWireCapableBeanFactory();
+        AbstractBeanFactory beanFactory = new AutoWireCapableBeanFactory();
         for (Map.Entry<String, BeanDefinition> beanEntry : reader.getBeanDefinitionMap().entrySet()) {
             beanFactory.registerBeanDefinition(beanEntry.getKey(), beanEntry.getValue());
         }

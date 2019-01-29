@@ -18,7 +18,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 
     private final List<String> beanDefinitionNames = new ArrayList<String>();
 
-    // 获取bean, 采用懒加载的方式, 需要的时候再去创建bean
+    // 获取bean, 采用lazy-init的方式, 需要的时候再去创建bean
     public Object getBean(String beanName) throws Exception {
 
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
