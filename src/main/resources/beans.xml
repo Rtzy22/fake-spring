@@ -17,4 +17,8 @@
 
     </bean>
 
+    <bean name="helloService" class="com.spring.fake.aop.testbeans.impl.HelloServiceImpl">
+
+    </bean>
+
 </beans>
